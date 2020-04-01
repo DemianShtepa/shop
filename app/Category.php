@@ -21,36 +21,18 @@ class Category extends Model
         return Category::withTrashed()->get()->toTree();
     }
 
-    public function activate()
+
+    public function toggleActivate()
     {
-        if (!$this->is_active) {
-            $this->is_active = true;
-        }
+        $this->is_active = !$this->is_active;
         $this->save();
-        $this->activateChildren();
+        $this->toggleChildren();
     }
 
-    public function deactivate()
-    {
-        if ($this->is_active) {
-            $this->is_active = false;
-        }
-        $this->save();
-        $this->deactivateChildren();
-    }
-
-    protected function activateChildren()
+    protected function toggleChildren()
     {
         foreach ($this->children as $child) {
-            $child->activate();
-        }
-    }
-
-
-    protected function deactivateChildren()
-    {
-        foreach ($this->children as $child) {
-            $child->deactivate();
+            $child->toggleActivate();
         }
     }
 
@@ -81,4 +63,5 @@ class Category extends Model
             "slug" => Str::slug($attributes["name"])
         ]);
     }
+
 }

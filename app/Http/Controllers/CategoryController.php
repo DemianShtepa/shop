@@ -61,16 +61,9 @@ class CategoryController extends Controller
         return redirect(route("category.index"));
     }
 
-    public function activate(Category $currentCategory)
+    public function toggleActivate(Category $currentCategory)
     {
-        $currentCategory->activate();
-
-        return redirect(route("category.index"));
-    }
-
-    public function deactivate(Category $currentCategory)
-    {
-        $currentCategory->deactivate();
+        $currentCategory->toggleActivate();
 
         return redirect(route("category.index"));
     }

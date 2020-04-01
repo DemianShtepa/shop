@@ -5,7 +5,8 @@
         <div class="row py-3">
             <div class="col">
                 <a href="{{ route("category.index") }}">
-                    <button type="button" class="btn btn-info btn-sm m-1 font-weight-bold text-white">Categories</button>
+                    <button type="button" class="btn btn-info btn-sm m-1 font-weight-bold text-white">Categories
+                    </button>
                 </a>
             </div>
             <div class="col">
@@ -14,16 +15,8 @@
                         @method("PUT")
                         @csrf
                         <button type="submit"
-                                class="btn btn-success btn-sm m-1 font-weight-bold" {{ $currentCategory->is_active || $currentCategory->trashed() ? "disabled" : ""}}>
-                            Activate
-                        </button>
-                    </form>
-                    <form action="{{ route("category.deactivate", $currentCategory->id) }}" method="POST">
-                        @method("PUT")
-                        @csrf
-                        <button type="submit"
-                                class="btn btn-secondary btn-sm m-1 font-weight-bold" {{ !$currentCategory->is_active ? "disabled" : ""}}>
-                            Deactivate
+                                class="btn btn-{{ $currentCategory->is_active ? "secondary" : "success" }} btn-sm m-1 font-weight-bold">
+                            {{ !$currentCategory->is_active ? "Activate" : "Deactivate" }}
                         </button>
                     </form>
                     <form action="{{ route("category.restore", $currentCategory->id) }}" method="POST">
@@ -37,12 +30,16 @@
                     <form action="{{ route("category.delete", $currentCategory->id) }}" method="POST">
                         @method("DELETE")
                         @csrf
-                        <button type="submit" class="btn btn-warning btn-sm m-1 font-weight-bold" {{ $currentCategory->trashed() ? "disabled" : ""}}>Delete</button>
+                        <button type="submit"
+                                class="btn btn-warning btn-sm m-1 font-weight-bold" {{ $currentCategory->trashed() ? "disabled" : ""}}>
+                            Delete
+                        </button>
                     </form>
                     <form action="{{ route("category.forceDelete", $currentCategory->id) }}" method="POST">
                         @method("DELETE")
                         @csrf
-                        <button type="submit" class="btn btn-danger btn-sm m-1 font-weight-bold">Permanently delete</button>
+                        <button type="submit" class="btn btn-danger btn-sm m-1 font-weight-bold">Permanently delete
+                        </button>
                     </form>
                 </div>
             </div>
@@ -69,19 +66,19 @@
                 <select class="form-control" name="parent_id" id="category_parent">
                     @foreach($categories as $category)
                         <option value="{{ $category->id }}"
-                                {{ ($currentCategory->parent_id == $category->id) ? "selected":"" }}>{{ $category->name }}</option>
+                            {{ ($currentCategory->parent_id == $category->id) ? "selected":"" }}>{{ $category->name }}</option>
                         @foreach($category->children as $category)
                             <option value="{{ $category->id }}"
-                                    {{ ($currentCategory->parent_id == $category->id) ? "selected":"" }}>
+                                {{ ($currentCategory->parent_id == $category->id) ? "selected":"" }}>
                                 &#8211; {{ $category->name }}</option>
                             @foreach($category->children as $category)
                                 <option value="{{ $category->id }}"
-                                        {{ ($currentCategory->parent_id == $category->id) ? "selected":"" }}>
+                                    {{ ($currentCategory->parent_id == $category->id) ? "selected":"" }}>
                                     &#8211;&#8211; {{ $category->name }}</option>
                             @endforeach
                         @endforeach
                     @endforeach
-                        <option value="" {{ !isset($currentCategory->parent_id) ? "selected": ""}}>None</option>
+                    <option value="" {{ !isset($currentCategory->parent_id) ? "selected": ""}}>None</option>
                 </select>
             </div>
 
@@ -92,9 +89,9 @@
                 <p class="text-danger">{{ $message }}</p>
                 @enderror
             </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
         </form>
     </div>
 @endsection
