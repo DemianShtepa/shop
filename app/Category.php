@@ -4,9 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Http\UploadedFile;
 use Kalnoy\Nestedset\NodeTrait;
-use App\Services\PhotoManager;
 use Illuminate\Support\Str;
 
 class Category extends Model
@@ -14,26 +12,11 @@ class Category extends Model
     use NodeTrait;
     use SoftDeletes;
 
-    protected $fillable = ["name", "desc", "is_active", "image", "slug", "parent_id"];
+    protected $fillable = ["name", "desc", "image", "slug", "parent_id"];
 
     public static function getTree()
     {
-        return Category::withTrashed()->get()->toTree();
-    }
-
-
-    public function toggleActivate()
-    {
-        $this->is_active = !$this->is_active;
-        $this->save();
-        $this->toggleChildren();
-    }
-
-    protected function toggleChildren()
-    {
-        foreach ($this->children as $child) {
-            $child->toggleActivate();
-        }
+        return Category::withTrashed()->orderBy("_lft")->get()->toTree();
     }
 
 
@@ -64,4 +47,21 @@ class Category extends Model
         ]);
     }
 
+    public function getChildrenCount()
+    {
+        return $this->children->count();
+    }
+
+    public function resort($prevId, $nextId)
+    {
+        if (isset($prevId)) {
+            $category = Category::where("id", $prevId)->withTrashed()->firstOrFail();
+            $this->insertAfterNode($category);
+            return "YES";
+        } else {
+            $category = Category::where("id", $nextId)->withTrashed()->firstOrFail();
+            $this->insertBeforeNode($category);
+            return "NO";
+        }
+    }
 }

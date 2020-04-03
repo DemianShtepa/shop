@@ -17,7 +17,6 @@ class CreateCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string("name");
             $table->text("desc")->nullable();
-            $table->boolean("is_active")->default(true);
             $table->string("image")->nullable();
             $table->string("slug");
             $table->nestedSet();

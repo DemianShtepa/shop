@@ -11,14 +11,6 @@
             </div>
             <div class="col">
                 <div class="d-flex justify-content-end">
-                    <form action="{{ route("category.activate", $currentCategory->id) }}" method="POST">
-                        @method("PUT")
-                        @csrf
-                        <button type="submit"
-                                class="btn btn-{{ $currentCategory->is_active ? "secondary" : "success" }} btn-sm m-1 font-weight-bold">
-                            {{ !$currentCategory->is_active ? "Activate" : "Deactivate" }}
-                        </button>
-                    </form>
                     <form action="{{ route("category.restore", $currentCategory->id) }}" method="POST">
                         @method("PUT")
                         @csrf

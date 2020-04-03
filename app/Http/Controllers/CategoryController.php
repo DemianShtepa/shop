@@ -46,9 +46,16 @@ class CategoryController extends Controller
         return redirect(route("category.index"));
     }
 
+    public function resort(Request $request)
+    {
+        $currentCategory = Category::where("id", $request->input("currentID"))->withTrashed()->firstOrFail();
+        $currentCategory->resort($request->input("prevID"), $request->input("nextID"));
+
+        return response()->json("done", 200);
+    }
+
     public function delete(Category $currentCategory)
     {
-        $currentCategory->deactivate();
         $currentCategory->delete();
 
         return redirect(route("category.index"));
@@ -61,12 +68,6 @@ class CategoryController extends Controller
         return redirect(route("category.index"));
     }
 
-    public function toggleActivate(Category $currentCategory)
-    {
-        $currentCategory->toggleActivate();
-
-        return redirect(route("category.index"));
-    }
 
     public function restore($id)
     {

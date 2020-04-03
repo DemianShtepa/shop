@@ -16,7 +16,7 @@ Route::prefix("category")
         Route::get("edit/{id}", "CategoryController@edit")->name("edit");
         Route::put("edit/{currentCategory}", "CategoryController@update")->name("update");
         Route::put("restore/{id}", "CategoryController@restore")->name("restore");
-        Route::put("activate/{currentCategory}", "CategoryController@toggleActivate")->name("activate");
+        Route::post("resort", "CategoryController@resort")->name("resort");
         Route::delete("delete/{currentCategory}", "CategoryController@delete")->name("delete");
         Route::delete("force-delete/{currentCategory}", "CategoryController@forceDelete")->name("forceDelete");
     });
