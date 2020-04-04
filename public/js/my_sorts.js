@@ -3818,13 +3818,15 @@ var sortableOptions2 = {
     put: true
   },
   animation: 250,
+  ghostClass: 'dark-background-class',
   forceFallback: true,
   onEnd: function onEnd(evt) {
     var current = evt.item; // dragged HTMLElement
 
     var nextList = evt.to;
     var action = '';
-    var rows = nextList.querySelectorAll(".list-group-item");
+    var parentID = nextList.getAttribute("data-parent-id");
+    var rows = nextList.querySelectorAll(".list-group-item[data-parent-id=" + "'" + parentID + "'" + "]");
     var prevItem = rows[evt.newIndex - 1];
     var nextItem = rows[evt.newIndex + 1];
     var currentID = current.getAttribute("data-category-id");

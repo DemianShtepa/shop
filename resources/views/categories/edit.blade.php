@@ -36,6 +36,28 @@
                 </div>
             </div>
         </div>
+        <div class="col text-center my-2">
+            <p>
+                <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#collapseExample"
+                        aria-expanded="false" aria-controls="collapseExample">
+                    Image
+                </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body text-center">
+                    @if($currentCategory->image)
+                        <div>
+                            <a href="{{ asset("storage/" . $currentCategory->image) }}" target="_blank">
+                                <img src="{{ asset("storage/" . $currentCategory->image) }}" style="height: 120px"
+                                     alt="image">
+                            </a>
+                        </div>
+                    @else
+                        <b>No image</b>
+                    @endif
+                </div>
+            </div>
+        </div>
         <form action="{{ route("category.update", $currentCategory) }}" method="POST" enctype="multipart/form-data">
             @method("PUT")
             @csrf
